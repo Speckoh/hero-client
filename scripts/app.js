@@ -1,36 +1,36 @@
-import { indexCharacter, createCharacter, showCharacter } from "./api.js"
-import { onIndexCharacterSuccess, onFailure, onCreateCharacterSuccess } from "./ui.js"
+import { indexHero, createHero, showHero } from "./api.js"
+import { onIndexHeroSuccess, onFailure, onCreateHeroSuccess } from "./ui.js"
 
-const createCharacterForm = document.querySelector('#create-character-form')
+const createHeroForm = document.querySelector('#create-hero-form')
 
-indexCharacter()
+indexHero()
 .then(res => res.json())
 .then(res =>{
     console.log(res)
-    onIndexCharacterSuccess(res.characters)
+    onIndexHeroSuccess(res.heroes)
 })
 .catch(onFailure)
 
-createCharacterForm.addEventListener('submit', (event) => {
+createHeroForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    const characterData = {
-        character:{
+    const heroData = {
+        hero:{
             firstName: event.target['firstName'].value,
             lastName: event.target['lastName'].value,
             class: event.target['class'].value,
             strength: event.target['strength'].value
         }
     }
-    createCharacter(characterData)
-    .then(onCreateCharacterSuccess)
+    createHero(heroData)
+    .then(onCreateHeroSuccess)
     .catch(onFailure)
 })
 
-indexCharacterContainer.addEventListener('click', (event) =>{
+indexHeroContainer.addEventListener('click', (event) =>{
     const id = event.target.getAttribute("data-id")
     console.log(id)
     
-    showCharacter(id)
+    showHero(id)
     .then(console.log)
     .catch(console.error)
 })

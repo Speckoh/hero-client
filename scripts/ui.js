@@ -1,12 +1,12 @@
-const indexCharacterContainer = document.querySelector('#index-character-container')
+const indexHeroContainer = document.querySelector('#index-hero-container')
 
 const messageContainer = document.querySelector('#message-container')
 
-export const onIndexCharacterSuccess = (characters) =>{
-    characters.forEach(character => {
+export const onIndexHeroSuccess = (heroes) =>{
+    heroes.forEach(hero => {
         const div = document.createElement('div')
-        div.innerHTML = `<h3>${character.firstName} ${character.lastName}</h3>
-        <button data-id="${character._id}"></button>`
+        div.innerHTML = `<h3>${hero.heroName}</h3>
+        <button data-id="${hero._id}"></button>`
         indexCharacterContainer.appendChild(div)
     })
 }
@@ -18,6 +18,6 @@ export const onFailure = (error) => {
     `
 }
 
-export const onCreateCharacterSuccess = () => {
-    messageContainer.innerText = 'You have created a character!! : )'
+export const onCreateHeroSuccess = () => {
+    messageContainer.innerText = 'You have created a hero!! : )'
 }
