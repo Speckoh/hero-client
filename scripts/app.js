@@ -1,7 +1,17 @@
-import { indexHero, createHero, showHero } from "./api.js"
-import { onIndexHeroSuccess, onFailure, onCreateHeroSuccess } from "./ui.js"
+import { indexHero, createHero, showHero,
+    updateHero, deleteHero} from "./api.js"
+import { 
+    onIndexHeroSuccess, 
+    onFailure, 
+    onCreateHeroSuccess,
+    onShowHeroSuccess,
+	onUpdateHeroSuccess,
+	onDeleteHeroSuccess,
+ } from "./ui.js"
 
 const createHeroForm = document.querySelector('#create-hero-form')
+const indexHeroContainer = document.querySelector('#index-hero-container')
+const showHeroContainer = document.querySelector('#show-hero-container')
 
 indexHero()
 .then(res => res.json())
@@ -13,12 +23,12 @@ indexHero()
 
 createHeroForm.addEventListener('submit', (event) => {
     event.preventDefault()
+
     const heroData = {
         hero:{
-            firstName: event.target['firstName'].value,
-            lastName: event.target['lastName'].value,
-            class: event.target['class'].value,
-            strength: event.target['strength'].value
+            heroName: event.target['heroName'].value,
+            realName: event.target['realName'].value,
+            specialAbility: event.target['ability'].value
         }
     }
     createHero(heroData)
@@ -30,7 +40,32 @@ indexHeroContainer.addEventListener('click', (event) =>{
     const id = event.target.getAttribute("data-id")
     console.log(id)
     
-    showHero(id)
-    .then(console.log)
-    .catch(console.error)
+    .then((res) => res.json())
+	.then((res) => onShowHeroSuccess(res.character))
+	.catch(onFailure)
+})
+
+showHeroContainer.addEventListener('submit', (event) => {
+	event.preventDefault()
+
+	const id = event.target.getAttribute('data-id')
+
+	const heroData = {
+		hero: {
+			heroName: event.target['heroName'].value,
+            realName: event.target['realName'].value,
+            specialAbility: event.target['ability'].value
+		},
+	}
+
+	updateHero(heroData, id)
+		.then(onUpdateHeroSuccess)
+		.catch(onFailure)
+})
+showHeroContainer.addEventListener('click', (event) => {
+	const id = event.target.getAttribute('data-id')
+    if (!id) return
+	deleteHero(id)
+		.then(onDeleteHeroSuccess)
+		.catch(onFailure)
 })
