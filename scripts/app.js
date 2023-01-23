@@ -36,7 +36,6 @@ createHeroForm.addEventListener('submit', (event) => {
             specialAbility: event.target['ability'].value
         }
     }
-    // console.log(heroData)
     createHero(heroData)
     .then(onCreateHeroSuccess)
     .catch(onFailure)
@@ -45,6 +44,7 @@ createHeroForm.addEventListener('submit', (event) => {
 //SHOW
 indexHeroContainer.addEventListener('click', (event) => {
     const id = event.target.getAttribute("data-id")
+    if (!id){return}
     showHero(id)
     .then((res) => res.json())
 	.then((res) => onShowHeroSuccess(res.hero))
@@ -62,6 +62,7 @@ showHeroContainer.addEventListener('submit', (event) => {
             specialAbility: event.target['ability'].value
 		},
 	}
+    if (!id){return}
 	updateHero(heroData, id)
 		.then(onUpdateHeroSuccess)
 		.catch(onFailure)
@@ -70,7 +71,7 @@ showHeroContainer.addEventListener('submit', (event) => {
 //DELETE
 showHeroContainer.addEventListener('click', (event) => {
 	const id = event.target.getAttribute('data-id')
-    // if (!id) return
+    if (!id){return}
 	deleteHero(id)
 		.then(onDeleteHeroSuccess)
 		.catch(onFailure)
