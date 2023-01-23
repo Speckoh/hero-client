@@ -1,26 +1,34 @@
-import { indexHero, createHero, showHero,
-    updateHero, deleteHero} from "./api.js"
+import { 
+    indexHero, 
+    createHero,
+    showHero,
+    // updateHero, 
+    // deleteHero
+} from "./api.js"
 import { 
     onIndexHeroSuccess, 
     onFailure, 
     onCreateHeroSuccess,
     onShowHeroSuccess,
-	onUpdateHeroSuccess,
-	onDeleteHeroSuccess,
- } from "./ui.js"
+	// onUpdateHeroSuccess,
+	// onDeleteHeroSuccess,
+} from "./ui.js"
 
 const createHeroForm = document.querySelector('#create-hero-form')
 const indexHeroContainer = document.querySelector('#index-hero-container')
-const showHeroContainer = document.querySelector('#show-hero-container')
+// const showHeroContainer = document.querySelector('#show-hero-container')
 
 indexHero()
+// .then(console.log)
+// .catch(console.error)
 .then(res => res.json())
-.then(res =>{
+.then(res => {
     console.log(res)
     onIndexHeroSuccess(res.heroes)
 })
 .catch(onFailure)
 
+//CREATE
 createHeroForm.addEventListener('submit', (event) => {
     event.preventDefault()
 
@@ -31,41 +39,41 @@ createHeroForm.addEventListener('submit', (event) => {
             specialAbility: event.target['ability'].value
         }
     }
+    // console.log(heroData)
     createHero(heroData)
     .then(onCreateHeroSuccess)
     .catch(onFailure)
 })
 
-indexHeroContainer.addEventListener('click', (event) =>{
+indexHeroContainer.addEventListener('click', (event) => {
     const id = event.target.getAttribute("data-id")
-    console.log(id)
-    
+    showHero(id)
     .then((res) => res.json())
-	.then((res) => onShowHeroSuccess(res.character))
+	.then((res) => onShowHeroSuccess(res.hero))
 	.catch(onFailure)
 })
 
-showHeroContainer.addEventListener('submit', (event) => {
-	event.preventDefault()
+// showHeroContainer.addEventListener('submit', (event) => {
+// 	event.preventDefault()
 
-	const id = event.target.getAttribute('data-id')
+// 	const id = event.target.getAttribute('data-id')
 
-	const heroData = {
-		hero: {
-			heroName: event.target['heroName'].value,
-            realName: event.target['realName'].value,
-            specialAbility: event.target['ability'].value
-		},
-	}
+// 	const heroData = {
+// 		hero: {
+// 			heroName: event.target['heroName'].value,
+//             realName: event.target['realName'].value,
+//             specialAbility: event.target['ability'].value
+// 		},
+// 	}
 
-	updateHero(heroData, id)
-		.then(onUpdateHeroSuccess)
-		.catch(onFailure)
-})
-showHeroContainer.addEventListener('click', (event) => {
-	const id = event.target.getAttribute('data-id')
-    if (!id) return
-	deleteHero(id)
-		.then(onDeleteHeroSuccess)
-		.catch(onFailure)
-})
+// 	updateHero(heroData, id)
+// 		.then(onUpdateHeroSuccess)
+// 		.catch(onFailure)
+// })
+// showHeroContainer.addEventListener('click', (event) => {
+// 	const id = event.target.getAttribute('data-id')
+//     if (!id) return
+// 	deleteHero(id)
+// 		.then(onDeleteHeroSuccess)
+// 		.catch(onFailure)
+// })
